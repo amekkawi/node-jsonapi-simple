@@ -1,0 +1,32 @@
+{
+  "name": "jsonapi-simple",
+  "version": "1.0.0-alpha.0",
+  "description": "Support JSON API without using an ORM",
+  "main": "lib/index.js",
+  "author": "Andre Mekkawi <github@andremekkawi.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/amekkawi/node-jsonapi-simple",
+  "scripts": {
+    "build:umd": "webpack lib/index.js dist/jsonapi-simple.js --config webpack.config.development.js",
+    "build:umd:min": "webpack lib/index.js dist/jsonapi-simple.min.js --config webpack.config.production.js",
+    "build": "npm run build:umd && npm run build:umd:min",
+    "clean": "rimraf dist && true",
+    "test": "mocha --bail --recursive --require ./test/setup.js ./test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amekkawi/node-jsonapi-simple.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amekkawi/node-jsonapi-simple/issues"
+  },
+  "keywords": [
+    "jsonapi"
+  ],
+  "devDependencies": {
+    "expect": "^1.15.2",
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2",
+    "webpack": "^1.12.14"
+  }
+}
