@@ -27,7 +27,11 @@ describe('Attributes Object', function() {
 
 		expect(function() {
 			new AttributesObject({}).validate();
-		}).toNotThrow('MAY be an empty object');
+		}).toNotThrow(null, 'MAY be an empty object');
+
+		var objInstance = new AttributesObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance, 'validate returns "this"');
 
 		function exampleObj() {
 			return {
@@ -48,7 +52,7 @@ describe('Attributes Object', function() {
 
 		expect(function() {
 			new AttributesObject(exampleObj()).validate();
-		}).toNotThrow('validates with any member name');
+		}).toNotThrow(null, 'validates with any member name');
 
 		expect(tryReturn(function() {
 			new AttributesObject({
@@ -57,8 +61,9 @@ describe('Attributes Object', function() {
 		}))
 			.toBeA(InvalidMemberError, 'MUST NOT contain a "relationships" member')
 			.toInclude({
+				objectName: 'AttributesObject',
 				member: 'relationships',
-				memberPath: ['relationships']
+				memberPath: []
 			});
 
 		expect(tryReturn(function() {
@@ -70,8 +75,9 @@ describe('Attributes Object', function() {
 		}))
 			.toBeA(InvalidMemberError, 'MUST NOT contain a deep "relationships" member')
 			.toInclude({
+				objectName: 'AttributesObject',
 				member: 'relationships',
-				memberPath: ['foo', 'relationships']
+				memberPath: ['foo']
 			});
 
 		expect(tryReturn(function() {
@@ -81,8 +87,9 @@ describe('Attributes Object', function() {
 		}))
 			.toBeA(InvalidMemberError, 'MUST NOT contain a "links" member')
 			.toInclude({
+				objectName: 'AttributesObject',
 				member: 'links',
-				memberPath: ['links']
+				memberPath: []
 			});
 
 		expect(tryReturn(function() {
@@ -94,8 +101,9 @@ describe('Attributes Object', function() {
 		}))
 			.toBeA(InvalidMemberError, 'MUST NOT contain a deep "links" member')
 			.toInclude({
+				objectName: 'AttributesObject',
 				member: 'links',
-				memberPath: ['foo', 'links']
+				memberPath: ['foo']
 			});
 	});
 });

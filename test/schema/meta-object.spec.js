@@ -27,7 +27,11 @@ describe('Meta Object', function() {
 
 		expect(function() {
 			new MetaObject({}).validate();
-		}).toNotThrow('MAY be an empty object');
+		}).toNotThrow(null, 'MAY be an empty object');
+
+		var objInstance = new MetaObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance, 'validate returns "this"');
 
 		function exampleObj() {
 			return {
@@ -48,6 +52,6 @@ describe('Meta Object', function() {
 
 		expect(function() {
 			new MetaObject(exampleObj()).validate();
-		}).toNotThrow('validates with any member name');
+		}).toNotThrow(null, 'validates with any member name');
 	});
 });
