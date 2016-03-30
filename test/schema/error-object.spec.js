@@ -3,7 +3,6 @@
 var expect = require('expect');
 var util = require('../../lib/util');
 var ErrorObject = require('../../lib/schema/error-object');
-var InvalidMemberError = require('../../lib/errors/invalid-member-error');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
 function tryReturn(fn) {
@@ -17,13 +16,17 @@ function tryReturn(fn) {
 
 describe('Error Object', function() {
 	it('should have expected prototype methods', function() {
-		expect(ErrorObject.prototype.set).toBeA('function');
+		['set', 'validate', 'toJSON']
+			.forEach(function(member) {
+				expect(ErrorObject.prototype[member]).toBeA('function');
+			});
+	});
+
+	it('should have expected prototype setter methods', function() {
 		['id', 'links', 'status', 'code', 'title', 'detail', 'source', 'meta']
 			.forEach(function(member) {
 				expect(ErrorObject.prototype['set' + util.upperFirst(member)]).toBeA('function');
 			});
-		expect(ErrorObject.prototype.validate).toBeA('function');
-		expect(ErrorObject.prototype.toJSON).toBeA('function');
 	});
 
 	// TODO: Test that set* works as expected
