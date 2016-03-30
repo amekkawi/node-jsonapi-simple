@@ -2,16 +2,6 @@
 
 var expect = require('expect');
 var MetaObject = require('../../lib/schema/meta-object');
-var InvalidMemberError = require('../../lib/errors/invalid-member-error');
-
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
 
 describe('Meta Object', function() {
 	it('should have expected prototype methods', function() {
@@ -22,36 +12,38 @@ describe('Meta Object', function() {
 
 	// TODO: Test that set works as expected
 
-	it('should set and validate to spec', function() {
-		// See: http://jsonapi.org/format/#document-meta
-
+	it('is valid with no members', function() {
 		expect(function() {
 			new MetaObject({}).validate();
-		}).toNotThrow(null, 'MAY be an empty object');
+		}).toNotThrow(null);
+	});
 
-		var objInstance = new MetaObject({});
-		expect(objInstance.validate())
-			.toBe(objInstance, 'validate returns "this"');
+	var objInstance = new MetaObject({});
+	expect(objInstance.validate())
+		.toBe(objInstance, 'validate returns "this"');
 
-		function exampleObj() {
-			return {
-				'true': true,
-				'false': true,
-				'str': 'string',
-				'num': 5,
-				'arr': [],
-				'obj': {
-					child1: 5
-				}
-			};
-		}
+	function exampleObj() {
+		return {
+			'true': true,
+			'false': true,
+			'str': 'string',
+			'num': 5,
+			'arr': [],
+			'obj': {
+				child1: 5
+			}
+		};
+	}
 
+	it('allows any member to be set', function() {
 		expect(
 			new MetaObject(exampleObj()).toJSON()
-		).toEqual(exampleObj(), 'sets any member');
+		).toEqual(exampleObj());
+	});
 
+	it('is valid with any member name', function() {
 		expect(function() {
 			new MetaObject(exampleObj()).validate();
-		}).toNotThrow(null, 'validates with any member name');
+		}).toNotThrow(null);
 	});
 });

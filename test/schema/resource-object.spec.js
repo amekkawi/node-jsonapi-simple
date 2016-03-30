@@ -29,49 +29,75 @@ describe('Resource Object', function() {
 
 	// TODO: Test that set* methods work as expected
 
-	it('should set and validate to spec', function() {
-		// See: http://jsonapi.org/format/#document-resource-objects
-
+	it('is invalid if it has no members', function() {
 		expect(function() {
 			new ResourceObject({}).validate();
-		}).toThrow(InvalidMemberValueError, 'MUST NOT be an empty object');
+		}).toThrow(InvalidMemberValueError);
+	});
 
+	it('is invalid if "type" member is missing or NOT a string', function() {
 		expect(tryReturn(function() {
 			new ResourceObject({
 				id: 'foo'
 			}).validate();
 		}))
-			.toBeA(InvalidMemberValueError, 'MUST have a string "type" member')
+			.toBeA(InvalidMemberValueError)
 			.toInclude({
 				objectName: 'ResourceObject',
 				member: 'type',
 				memberPath: []
 			});
+	});
 
+	it('is invalid if "id" member is missing or NOT a string', function() {
 		expect(tryReturn(function() {
 			new ResourceObject({
 				type: 'foo'
 			}).validate();
 		}))
-			.toBeA(InvalidMemberValueError, 'MUST have a string "id" member')
+			.toBeA(InvalidMemberValueError)
 			.toInclude({
 				objectName: 'ResourceObject',
 				member: 'id',
 				memberPath: []
 			});
+	});
 
+	it('is valid if missing a "id" member and "documentType" validation option is "document"', function() {
 		expect(function() {
 			new ResourceObject({
 				type: 'foo'
-			}).validate({ documentType: 'request' });
-		}).toNotThrow(null, 'MAY NOT have a string "id" member if request document');
+			}).validate({documentType: 'request'});
+		}).toNotThrow(null);
+	});
 
-		var objInstance = new ResourceObject({
-			id: 'foo',
-			type: 'bar'
+	var objInstance = new ResourceObject({
+		id: 'foo',
+		type: 'bar'
+	});
+	expect(objInstance.validate())
+		.toBe(objInstance, 'validate returns "this"');
+
+	// Required to be objects
+	['attributes', 'relationships', 'links', 'meta'].forEach(function(member) {
+		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
+			[[], 500, null].forEach(function(value) {
+				var obj = {
+					type: 'foo',
+					id: 'bar'
+				};
+				obj[member] = value;
+
+				expect(tryReturn(function() {
+					new ResourceObject(obj).validate();
+				}))
+					.toBeA(InvalidMemberValueError)
+					.toInclude({
+						objectName: 'ResourceObject',
+						member: member,
+						memberPath: []
+					});
+			});
 		});
-		expect(objInstance.validate())
-			.toBe(objInstance, 'validate returns "this"');
-
 	});
 });
