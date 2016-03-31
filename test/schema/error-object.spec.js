@@ -90,7 +90,7 @@ describe('Error Object', function() {
 	});
 
 	['pointer', 'parameter'].forEach(function(member) {
-		it('is invalid if "' + member + '" member is specified and is NOT a string', function() {
+		it('is invalid if "' + member + '" is a member of "source" and is NOT a string', function() {
 			[[], 500, null, {}].forEach(function(value) {
 				var obj = {source: {}};
 				obj.source[member] = value;
@@ -108,7 +108,7 @@ describe('Error Object', function() {
 	});
 
 	['links', 'meta'].forEach(function(member) {
-		it('is invalid if "' + member + '" member is specified and is NOT an object', function() {
+		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
 			[[], 500, null, '500'].forEach(function(value) {
 				var obj = {
 					type: 'foo',
