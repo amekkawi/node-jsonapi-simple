@@ -41,35 +41,21 @@ describe('Error Object', function() {
 	expect(objInstance.validate())
 		.toBe(objInstance, 'validate returns "this"');
 
-	it('is invalid if "status" is a member and is NOT a string', function() {
-		[{}, [], 500, null].forEach(function(value) {
-			expect(tryReturn(function() {
-				new ErrorObject({
-					status: value
-				}).validate();
-			}))
-				.toBeA(InvalidMemberValueError)
-				.toInclude({
-					objectName: 'ErrorObject',
-					member: 'status',
-					memberPath: []
-				});
-		});
-	});
-
-	it('is invalid if "code" is a member and is NOT a string', function() {
-		[{}, [], 500, null].forEach(function(value) {
-			expect(tryReturn(function() {
-				new ErrorObject({
-					code: value
-				}).validate();
-			}))
-				.toBeA(InvalidMemberValueError)
-				.toInclude({
-					objectName: 'ErrorObject',
-					member: 'code',
-					memberPath: []
-				});
+	['status', 'code'].forEach(function(member) {
+		it('is invalid if "' + member + '" is a member and is NOT a string', function() {
+			[{}, [], 500, null].forEach(function(value) {
+				var obj = {};
+				obj[member] = value;
+				expect(tryReturn(function() {
+					new ErrorObject(obj).validate();
+				}))
+					.toBeA(InvalidMemberValueError)
+					.toInclude({
+						objectName: 'ErrorObject',
+						member: member,
+						memberPath: []
+					});
+			});
 		});
 	});
 
