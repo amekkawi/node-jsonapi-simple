@@ -34,7 +34,7 @@ describe('Error Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new ErrorObject({}).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	var objInstance = new ErrorObject({});
@@ -49,7 +49,7 @@ describe('Error Object', function() {
 				expect(tryReturn(function() {
 					new ErrorObject(obj).validate();
 				}))
-					.toBeA(InvalidMemberValueError)
+					.toBeAForValue(InvalidMemberValueError, value)
 					.toInclude({
 						objectName: 'ErrorObject',
 						member: member,
@@ -66,7 +66,7 @@ describe('Error Object', function() {
 					source: value
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'ErrorObject',
 					member: 'source',
@@ -83,7 +83,7 @@ describe('Error Object', function() {
 				expect(tryReturn(function() {
 					new ErrorObject(obj).validate();
 				}))
-					.toBeA(InvalidMemberValueError)
+					.toBeAForValue(InvalidMemberValueError, value)
 					.toInclude({
 						objectName: 'ErrorObject',
 						member: member,
@@ -104,7 +104,7 @@ describe('Error Object', function() {
 				expect(tryReturn(function() {
 					new ErrorObject(obj).validate();
 				}))
-					.toBeA(InvalidMemberValueError)
+					.toBeAForValue(InvalidMemberValueError, value)
 					.toInclude({
 						objectName: 'ErrorObject',
 						member: member,

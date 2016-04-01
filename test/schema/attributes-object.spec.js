@@ -25,7 +25,7 @@ describe('Attributes Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new AttributesObject({}).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	var objInstance = new AttributesObject({});
@@ -54,7 +54,7 @@ describe('Attributes Object', function() {
 	it('is valid with any member name', function() {
 		expect(function() {
 			new AttributesObject(exampleObj()).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	['relationships', 'links'].forEach(function(member) {
@@ -95,7 +95,7 @@ describe('Attributes Object', function() {
 				new AttributesObject(shallow)
 					.validate({allowAnyAttributeName: true});
 			})
-				.toNotThrow(null);
+				.toNotThrow();
 		});
 
 		it('is valid with a nested "' + member + '" member if validation option "allowAnyAttributeName" is true', function() {
@@ -103,7 +103,7 @@ describe('Attributes Object', function() {
 				new AttributesObject(deep)
 					.validate({allowAnyAttributeName: true});
 			})
-				.toNotThrow(null);
+				.toNotThrow();
 		});
 	});
 });

@@ -68,7 +68,7 @@ describe('Resource Object', function() {
 			new ResourceObject({
 				type: 'foo'
 			}).validate({documentType: 'request'});
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	var objInstance = new ResourceObject({
@@ -91,7 +91,7 @@ describe('Resource Object', function() {
 				expect(tryReturn(function() {
 					new ResourceObject(obj).validate();
 				}))
-					.toBeA(InvalidMemberValueError)
+					.toBeAForValue(InvalidMemberValueError, value)
 					.toInclude({
 						objectName: 'ResourceObject',
 						member: member,

@@ -51,7 +51,7 @@ describe('Relationship Object', function() {
 					data: value
 				}).validate();
 			})
-				.toNotThrow();
+				.toNotThrowForValue(null, value);
 		});
 
 		[void 0, 500, '500'].forEach(function(value) {
@@ -60,7 +60,7 @@ describe('Relationship Object', function() {
 					data: value
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'RelationshipObject',
 					member: 'data',
@@ -78,7 +78,7 @@ describe('Relationship Object', function() {
 					]
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'RelationshipObject',
 					member: '0',
@@ -95,7 +95,7 @@ describe('Relationship Object', function() {
 				expect(tryReturn(function() {
 					new RelationshipObject(obj).validate();
 				}))
-					.toBeA(InvalidMemberValueError)
+					.toBeAForValue(InvalidMemberValueError, value)
 					.toInclude({
 						objectName: 'RelationshipObject',
 						member: member,

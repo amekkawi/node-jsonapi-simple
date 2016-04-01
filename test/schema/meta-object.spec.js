@@ -15,7 +15,7 @@ describe('Meta Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new MetaObject({}).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	var objInstance = new MetaObject({});
@@ -44,6 +44,6 @@ describe('Meta Object', function() {
 	it('is valid with any member name', function() {
 		expect(function() {
 			new MetaObject(exampleObj()).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 });

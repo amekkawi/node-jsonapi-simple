@@ -25,7 +25,7 @@ describe('Links Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new LinksObject({}).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	var objInstance = new LinksObject({});
@@ -39,7 +39,7 @@ describe('Links Object', function() {
 					self: value
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'LinksObject',
 					member: 'self',
@@ -54,7 +54,7 @@ describe('Links Object', function() {
 				self: {}
 			}).validate();
 		})
-			.toNotThrow(null);
+			.toNotThrow();
 	});
 
 	it('is invalid if a link has a "href" member that is NOT a string', function() {
@@ -66,7 +66,7 @@ describe('Links Object', function() {
 					}
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'LinkObject',
 					member: 'href',
@@ -84,7 +84,7 @@ describe('Links Object', function() {
 					}
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'LinkObject',
 					member: 'meta',

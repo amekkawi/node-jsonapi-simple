@@ -34,7 +34,7 @@ describe('Link Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new LinkObject({}).validate();
-		}).toNotThrow(null);
+		}).toNotThrow();
 	});
 
 	var objInstance = new LinkObject({});
@@ -48,7 +48,7 @@ describe('Link Object', function() {
 					href: value
 				}).validate();
 			}))
-				.toBeA(InvalidMemberValueError)
+				.toBeAForValue(InvalidMemberValueError, value)
 				.toInclude({
 					objectName: 'LinkObject',
 					member: 'href',
@@ -65,7 +65,7 @@ describe('Link Object', function() {
 						meta: value
 					}).validate();
 				}))
-					.toBeA(InvalidMemberValueError)
+					.toBeAForValue(InvalidMemberValueError, value)
 					.toInclude({
 						objectName: 'LinkObject',
 						member: 'meta',
