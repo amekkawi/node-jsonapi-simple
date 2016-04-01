@@ -81,7 +81,7 @@ describe('Resource Object', function() {
 	// Required to be objects
 	['attributes', 'relationships', 'links', 'meta'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
-			[[], 500, null].forEach(function(value) {
+			[void 0, [], 500, null].forEach(function(value) {
 				var obj = {
 					type: 'foo',
 					id: 'bar'

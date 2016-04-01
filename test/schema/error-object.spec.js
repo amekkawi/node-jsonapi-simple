@@ -43,7 +43,7 @@ describe('Error Object', function() {
 
 	['status', 'code'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member and is NOT a string', function() {
-			[{}, [], 500, null].forEach(function(value) {
+			[void 0, {}, [], 500, null].forEach(function(value) {
 				var obj = {};
 				obj[member] = value;
 				expect(tryReturn(function() {
@@ -60,7 +60,7 @@ describe('Error Object', function() {
 	});
 
 	it('is invalid if "source" is a member and is NOT an object', function() {
-		[[], 500, null, '500'].forEach(function(value) {
+		[void 0, [], 500, null, '500'].forEach(function(value) {
 			expect(tryReturn(function() {
 				new ErrorObject({
 					source: value
@@ -77,7 +77,7 @@ describe('Error Object', function() {
 
 	['pointer', 'parameter'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member of "source" and is NOT a string', function() {
-			[[], 500, null, {}].forEach(function(value) {
+			[void 0, [], 500, null, {}].forEach(function(value) {
 				var obj = {source: {}};
 				obj.source[member] = value;
 				expect(tryReturn(function() {
@@ -95,7 +95,7 @@ describe('Error Object', function() {
 
 	['links', 'meta'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
-			[[], 500, null, '500'].forEach(function(value) {
+			[void 0, [], 500, null, '500'].forEach(function(value) {
 				var obj = {
 					type: 'foo',
 					id: 'bar'

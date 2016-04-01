@@ -42,7 +42,7 @@ describe('Link Object', function() {
 		.toBe(objInstance, 'validate returns "this"');
 
 	it('is invalid if "href" is a member and is NOT a string', function() {
-		[{}, [], 500, null].forEach(function(value) {
+		[void 0, {}, [], 500, null].forEach(function(value) {
 			expect(tryReturn(function() {
 				new LinkObject({
 					href: value
@@ -59,7 +59,7 @@ describe('Link Object', function() {
 
 	['links', 'meta'].forEach(function(member) {
 		it('is invalid if "meta" is a member and is NOT an object', function() {
-			[[], 500, null, '500'].forEach(function(value) {
+			[void 0, [], 500, null, '500'].forEach(function(value) {
 				expect(tryReturn(function() {
 					new LinkObject({
 						meta: value

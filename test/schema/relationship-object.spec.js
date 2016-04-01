@@ -54,7 +54,7 @@ describe('Relationship Object', function() {
 				.toNotThrow();
 		});
 
-		[500, '500'].forEach(function(value) {
+		[void 0, 500, '500'].forEach(function(value) {
 			expect(tryReturn(function() {
 				new RelationshipObject({
 					data: value
@@ -70,7 +70,7 @@ describe('Relationship Object', function() {
 	});
 
 	it('is invalid if "data" is a member is an array and its values are NOT objects', function() {
-		[[], 500, null, '500'].forEach(function(value) {
+		[void 0, [], 500, null, '500'].forEach(function(value) {
 			expect(tryReturn(function() {
 				new RelationshipObject({
 					data: [
@@ -89,7 +89,7 @@ describe('Relationship Object', function() {
 
 	['links', 'meta'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
-			[[], 500, null, '500'].forEach(function(value) {
+			[void 0, 	[], 500, null, '500'].forEach(function(value) {
 				var obj = {};
 				obj[member] = value;
 				expect(tryReturn(function() {
