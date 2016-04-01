@@ -26,6 +26,7 @@
   "devDependencies": {
     "expect": "^1.15.2",
     "mocha": "^2.4.5",
+    "object-inspect": "^1.1.0",
     "rimraf": "^2.5.2",
     "webpack": "^1.12.14"
   },
