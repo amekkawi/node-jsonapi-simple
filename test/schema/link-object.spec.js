@@ -37,9 +37,11 @@ describe('Link Object', function() {
 		}).toNotThrow();
 	});
 
-	var objInstance = new LinkObject({});
-	expect(objInstance.validate())
-		.toBe(objInstance, 'validate returns "this"');
+	it('validate method should return "this"', function() {
+		var objInstance = new LinkObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
+	});
 
 	it('is invalid if "href" is a member and is NOT a string', function() {
 		[void 0, {}, [], 500, null].forEach(function(value) {

@@ -71,12 +71,14 @@ describe('Resource Object', function() {
 		}).toNotThrow();
 	});
 
-	var objInstance = new ResourceObject({
-		id: 'foo',
-		type: 'bar'
+	it('validate method should return "this"', function() {
+		var objInstance = new ResourceObject({
+			id: 'foo',
+			type: 'bar'
+		});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
-	expect(objInstance.validate())
-		.toBe(objInstance, 'validate returns "this"');
 
 	// Required to be objects
 	['attributes', 'relationships', 'links', 'meta'].forEach(function(member) {

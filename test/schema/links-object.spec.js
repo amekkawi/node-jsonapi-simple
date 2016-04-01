@@ -28,9 +28,11 @@ describe('Links Object', function() {
 		}).toNotThrow();
 	});
 
-	var objInstance = new LinksObject({});
-	expect(objInstance.validate())
-		.toBe(objInstance, 'validate returns "this"');
+	it('validate method should return "this"', function() {
+		var objInstance = new LinksObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
+	});
 
 	it('is invalid if a member is NOT a string or object', function() {
 		[void 0, [], 500, null].forEach(function(value) {

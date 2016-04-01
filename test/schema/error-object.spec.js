@@ -37,9 +37,11 @@ describe('Error Object', function() {
 		}).toNotThrow();
 	});
 
-	var objInstance = new ErrorObject({});
-	expect(objInstance.validate())
-		.toBe(objInstance, 'validate returns "this"');
+	it('validate method should return "this"', function() {
+		var objInstance = new ErrorObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
+	});
 
 	['status', 'code'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member and is NOT a string', function() {

@@ -28,9 +28,11 @@ describe('Attributes Object', function() {
 		}).toNotThrow();
 	});
 
-	var objInstance = new AttributesObject({});
-	expect(objInstance.validate())
-		.toBe(objInstance, 'validate returns "this"');
+	it('validate method should return "this"', function() {
+		var objInstance = new AttributesObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
+	});
 
 	function exampleObj() {
 		return {
