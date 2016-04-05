@@ -1,7 +1,7 @@
 "use strict";
 
-const expect =  require('expect');
-const inspect = require('object-inspect');
+var expect =  require('expect');
+var inspect = require('object-inspect');
 
 expect.extend({
 	toBeAForValue: function(error, value) {
