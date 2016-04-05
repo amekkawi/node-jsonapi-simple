@@ -44,6 +44,17 @@ describe('Error Object', function() {
 	});
 
 	['status', 'code'].forEach(function(member) {
+		it('is valid if "' + member + '" is a member and is a string', function() {
+			['', '500', 'alpha'].forEach(function(value) {
+				var obj = {};
+				obj[member] = value;
+				expect(function() {
+					new ErrorObject(obj).validate();
+				})
+					.toNotThrowForValue(null, value);
+			});
+		});
+
 		it('is invalid if "' + member + '" is a member and is NOT a string', function() {
 			[void 0, {}, [], 500, null].forEach(function(value) {
 				var obj = {};
@@ -59,6 +70,15 @@ describe('Error Object', function() {
 					});
 			});
 		});
+	});
+
+	it('is valid if "source" is an empty object', function() {
+		expect(function() {
+			new ErrorObject({
+				source: {}
+			}).validate();
+		})
+			.toNotThrow();
 	});
 
 	it('is invalid if "source" is a member and is NOT an object', function() {
@@ -78,6 +98,15 @@ describe('Error Object', function() {
 	});
 
 	['pointer', 'parameter'].forEach(function(member) {
+		it('is valid if "' + member + '" is a member and is a string', function() {
+			var obj = {source: {}};
+			obj.source[member] = 'foo';
+			expect(function() {
+				new ErrorObject(obj).validate();
+			})
+				.toNotThrow();
+		});
+
 		it('is invalid if "' + member + '" is a member of "source" and is NOT a string', function() {
 			[void 0, [], 500, null, {}].forEach(function(value) {
 				var obj = {source: {}};
@@ -95,7 +124,49 @@ describe('Error Object', function() {
 		});
 	});
 
+	it('is valid if "source" has other members', function() {
+		expect(function() {
+			new ErrorObject({
+				source: {
+					foo: 'bar'
+				}
+			}).validate().toJSON();
+		})
+			.toNotThrow();
+	});
+
+	it('returns all provided members for "source"', function() {
+		expect(new ErrorObject({
+			source: {
+				foo: 500,
+				bar: {},
+				pointer: 'foo',
+				parameter: 'bar'
+			}
+		}).toJSON())
+			.toEqual({
+				source: {
+					foo: 500,
+					bar: {},
+					pointer: 'foo',
+					parameter: 'bar'
+				}
+			});
+	});
+
 	['links', 'meta'].forEach(function(member) {
+		it('is valid if "' + member + '" is a member and is an object', function() {
+			var obj = {
+				type: 'foo',
+				id: 'bar'
+			};
+			obj[member] = {};
+			expect(function() {
+				new ErrorObject(obj).validate();
+			})
+				.toNotThrow();
+		});
+
 		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
 			[void 0, [], 500, null, '500'].forEach(function(value) {
 				var obj = {
