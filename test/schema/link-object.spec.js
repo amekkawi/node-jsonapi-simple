@@ -49,21 +49,18 @@ describe('Link Object', function() {
 		});
 	});
 
-	['links', 'meta'].forEach(function(member) {
-		it('is invalid if "meta" is a member and is NOT an object', function() {
-			[void 0, [], 500, null, '500'].forEach(function(value) {
-				expect(tryReturn(function() {
-					new LinkObject({
-						meta: value
-					}).validate();
-				}))
-					.toBeAForValue(InvalidMemberValueError, value)
-					.toInclude({
-						objectName: 'LinkObject',
-						member: 'meta',
-						memberPath: []
-					});
-			});
+	it('is invalid if "meta" is a member and is NOT an object', function() {
+		[void 0, [], 500, null, '500'].forEach(function(value) {
+			expect(function() {
+				new LinkObject({
+					meta: value
+				}).validate();
+			})
+				.toBeInvalid(InvalidMemberValueError, {
+					objectName: 'LinkObject',
+					member: 'meta',
+					memberPath: []
+				}, value);
 		});
 	});
 });
