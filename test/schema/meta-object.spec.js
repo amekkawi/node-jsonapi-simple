@@ -15,7 +15,7 @@ describe('Meta Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new MetaObject({}).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
@@ -46,6 +46,6 @@ describe('Meta Object', function() {
 	it('is valid with any member name', function() {
 		expect(function() {
 			new MetaObject(exampleObj()).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 });

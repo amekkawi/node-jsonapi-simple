@@ -6,15 +6,6 @@ var RelationshipObject = require('../../lib/schema/relationship-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 var InvalidObjectError = require('../../lib/errors/invalid-object-error');
 
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
-
 describe('Relationship Object', function() {
 	it('should have expected prototype methods', function() {
 		['set', 'validate', 'toJSON']
@@ -52,40 +43,37 @@ describe('Relationship Object', function() {
 				new RelationshipObject({
 					data: value
 				}).validate();
-			})
-				.toNotThrowForValue(null, value);
+			}).toBeValid(value);
 		});
 
 		[void 0, 500, '500'].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new RelationshipObject({
 					data: value
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'RelationshipObject',
 					member: 'data',
 					memberPath: []
-				});
+				}, value);
 		});
 	});
 
 	it('is invalid if "data" is a member is an array and its values are NOT objects', function() {
 		[void 0, [], 500, null, '500'].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new RelationshipObject({
 					data: [
 						value
 					]
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'RelationshipObject',
 					member: '0',
 					memberPath: ['data']
-				});
+				}, value);
 		});
 	});
 
@@ -94,15 +82,14 @@ describe('Relationship Object', function() {
 			[void 0, 	[], 500, null, '500'].forEach(function(value) {
 				var obj = {};
 				obj[member] = value;
-				expect(tryReturn(function() {
+				expect(function() {
 					new RelationshipObject(obj).validate();
-				}))
-					.toBeAForValue(InvalidMemberValueError, value)
-					.toInclude({
+				})
+					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'RelationshipObject',
 						member: member,
 						memberPath: []
-					});
+					}, value);
 			});
 		});
 	});

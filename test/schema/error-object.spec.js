@@ -5,15 +5,6 @@ var util = require('../../lib/util');
 var ErrorObject = require('../../lib/schema/error-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
-
 describe('Error Object', function() {
 	it('should have expected prototype methods', function() {
 		['set', 'validate', 'toJSON']
@@ -34,7 +25,7 @@ describe('Error Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new ErrorObject({}).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
@@ -50,8 +41,7 @@ describe('Error Object', function() {
 				obj[member] = value;
 				expect(function() {
 					new ErrorObject(obj).validate();
-				})
-					.toNotThrowForValue(null, value);
+				}).toBeValid(value);
 			});
 		});
 
@@ -59,15 +49,14 @@ describe('Error Object', function() {
 			[void 0, {}, [], 500, null].forEach(function(value) {
 				var obj = {};
 				obj[member] = value;
-				expect(tryReturn(function() {
+				expect(function() {
 					new ErrorObject(obj).validate();
-				}))
-					.toBeAForValue(InvalidMemberValueError, value)
-					.toInclude({
+				})
+					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ErrorObject',
 						member: member,
 						memberPath: []
-					});
+					}, value);
 			});
 		});
 	});
@@ -77,23 +66,21 @@ describe('Error Object', function() {
 			new ErrorObject({
 				source: {}
 			}).validate();
-		})
-			.toNotThrow();
+		}).toBeValid();
 	});
 
 	it('is invalid if "source" is a member and is NOT an object', function() {
 		[void 0, [], 500, null, '500'].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new ErrorObject({
 					source: value
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'ErrorObject',
 					member: 'source',
 					memberPath: []
-				});
+				}, value);
 		});
 	});
 
@@ -103,23 +90,21 @@ describe('Error Object', function() {
 			obj.source[member] = 'foo';
 			expect(function() {
 				new ErrorObject(obj).validate();
-			})
-				.toNotThrow();
+			}).toBeValid();
 		});
 
 		it('is invalid if "' + member + '" is a member of "source" and is NOT a string', function() {
 			[void 0, [], 500, null, {}].forEach(function(value) {
 				var obj = {source: {}};
 				obj.source[member] = value;
-				expect(tryReturn(function() {
+				expect(function() {
 					new ErrorObject(obj).validate();
-				}))
-					.toBeAForValue(InvalidMemberValueError, value)
-					.toInclude({
+				})
+					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ErrorObject',
 						member: member,
 						memberPath: ['source']
-					});
+					}, value);
 			});
 		});
 	});
@@ -131,8 +116,7 @@ describe('Error Object', function() {
 					foo: 'bar'
 				}
 			}).validate().toJSON();
-		})
-			.toNotThrow();
+		}).toBeValid();
 	});
 
 	it('returns all provided members for "source"', function() {
@@ -163,8 +147,7 @@ describe('Error Object', function() {
 			obj[member] = {};
 			expect(function() {
 				new ErrorObject(obj).validate();
-			})
-				.toNotThrow();
+			}).toBeValid();
 		});
 
 		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
@@ -174,15 +157,14 @@ describe('Error Object', function() {
 					id: 'bar'
 				};
 				obj[member] = value;
-				expect(tryReturn(function() {
+				expect(function() {
 					new ErrorObject(obj).validate();
-				}))
-					.toBeAForValue(InvalidMemberValueError, value)
-					.toInclude({
+				})
+					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ErrorObject',
 						member: member,
 						memberPath: []
-					});
+					}, value);
 			});
 		});
 	});

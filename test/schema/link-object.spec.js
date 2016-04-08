@@ -5,15 +5,6 @@ var util = require('../../lib/util');
 var LinkObject = require('../../lib/schema/link-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
-
 describe('Link Object', function() {
 	it('should have expected prototype methods', function() {
 		['set', 'validate', 'toJSON']
@@ -34,7 +25,7 @@ describe('Link Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new LinkObject({}).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
@@ -45,17 +36,16 @@ describe('Link Object', function() {
 
 	it('is invalid if "href" is a member and is NOT a string', function() {
 		[void 0, {}, [], 500, null].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new LinkObject({
 					href: value
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'href',
 					memberPath: []
-				});
+				}, value);
 		});
 	});
 

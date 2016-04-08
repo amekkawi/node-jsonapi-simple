@@ -4,15 +4,6 @@ var expect = require('expect');
 var AttributesObject = require('../../lib/schema/attributes-object');
 var InvalidMemberError = require('../../lib/errors/invalid-member-error');
 
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
-
 describe('Attributes Object', function() {
 	it('should have expected prototype methods', function() {
 		expect(AttributesObject.prototype.set).toBeA('function');
@@ -25,7 +16,7 @@ describe('Attributes Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new AttributesObject({}).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
@@ -56,7 +47,7 @@ describe('Attributes Object', function() {
 	it('is valid with any member name', function() {
 		expect(function() {
 			new AttributesObject(exampleObj()).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	['relationships', 'links'].forEach(function(member) {
@@ -67,12 +58,11 @@ describe('Attributes Object', function() {
 		deep.foo[member] = [];
 
 		it('is invalid if has a "' + member + '" member', function() {
-			expect(tryReturn(function() {
+			expect(function() {
 				new AttributesObject(shallow)
 					.validate();
-			}))
-				.toBeA(InvalidMemberError)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberError, {
 					objectName: 'AttributesObject',
 					member: member,
 					memberPath: []
@@ -80,12 +70,11 @@ describe('Attributes Object', function() {
 		});
 
 		it('is invalid if has a nested "' + member + '" member', function() {
-			expect(tryReturn(function() {
+			expect(function() {
 				new AttributesObject(deep)
 					.validate();
-			}))
-				.toBeA(InvalidMemberError)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberError, {
 					objectName: 'AttributesObject',
 					member: member,
 					memberPath: ['foo']
@@ -96,16 +85,14 @@ describe('Attributes Object', function() {
 			expect(function() {
 				new AttributesObject(shallow)
 					.validate({allowAnyAttributeName: true});
-			})
-				.toNotThrow();
+			}).toBeValid();
 		});
 
 		it('is valid with a nested "' + member + '" member if validation option "allowAnyAttributeName" is true', function() {
 			expect(function() {
 				new AttributesObject(deep)
 					.validate({allowAnyAttributeName: true});
-			})
-				.toNotThrow();
+			}).toBeValid();
 		});
 	});
 });

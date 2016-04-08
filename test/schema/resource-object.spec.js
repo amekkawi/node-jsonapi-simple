@@ -5,15 +5,6 @@ var ResourceObject = require('../../lib/schema/resource-object');
 var InvalidMemberError = require('../../lib/errors/invalid-member-error');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
-
 describe('Resource Object', function() {
 	it('should have expected prototype methods', function() {
 		expect(ResourceObject.prototype.set).toBeA('function');
@@ -36,13 +27,12 @@ describe('Resource Object', function() {
 	});
 
 	it('is invalid if "type" member is missing or NOT a string', function() {
-		expect(tryReturn(function() {
+		expect(function() {
 			new ResourceObject({
 				id: 'foo'
 			}).validate();
-		}))
-			.toBeA(InvalidMemberValueError)
-			.toInclude({
+		})
+			.toBeInvalid(InvalidMemberValueError, {
 				objectName: 'ResourceObject',
 				member: 'type',
 				memberPath: []
@@ -50,13 +40,12 @@ describe('Resource Object', function() {
 	});
 
 	it('is invalid if "id" member is missing or NOT a string', function() {
-		expect(tryReturn(function() {
+		expect(function() {
 			new ResourceObject({
 				type: 'foo'
 			}).validate();
-		}))
-			.toBeA(InvalidMemberValueError)
-			.toInclude({
+		})
+			.toBeInvalid(InvalidMemberValueError, {
 				objectName: 'ResourceObject',
 				member: 'id',
 				memberPath: []
@@ -68,7 +57,7 @@ describe('Resource Object', function() {
 			new ResourceObject({
 				type: 'foo'
 			}).validate({documentType: 'request'});
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
@@ -90,15 +79,14 @@ describe('Resource Object', function() {
 				};
 				obj[member] = value;
 
-				expect(tryReturn(function() {
+				expect(function() {
 					new ResourceObject(obj).validate();
-				}))
-					.toBeAForValue(InvalidMemberValueError, value)
-					.toInclude({
+				})
+					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ResourceObject',
 						member: member,
 						memberPath: []
-					});
+					}, value);
 			});
 		});
 	});

@@ -5,15 +5,6 @@ var util = require('../../lib/util');
 var LinksObject = require('../../lib/schema/links-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
-function tryReturn(fn) {
-	try {
-		return fn();
-	}
-	catch (err) {
-		return err;
-	}
-}
-
 describe('Links Object', function() {
 	it('should have expected prototype methods', function() {
 		['set', 'validate', 'toJSON']
@@ -25,7 +16,7 @@ describe('Links Object', function() {
 	it('is valid with no members', function() {
 		expect(function() {
 			new LinksObject({}).validate();
-		}).toNotThrow();
+		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
@@ -36,17 +27,16 @@ describe('Links Object', function() {
 
 	it('is invalid if a member is NOT a string or object', function() {
 		[void 0, [], 500, null].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new LinksObject({
 					self: value
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinksObject',
 					member: 'self',
 					memberPath: []
-				});
+				}, value);
 		});
 	});
 
@@ -55,43 +45,40 @@ describe('Links Object', function() {
 			new LinksObject({
 				self: {}
 			}).validate();
-		})
-			.toNotThrow();
+		}).toBeValid();
 	});
 
 	it('is invalid if a link has a "href" member that is NOT a string', function() {
 		[void 0, [], {}, 500, null].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new LinksObject({
 					self: {
 						href: value
 					}
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'href',
 					memberPath: ['self']
-				});
+				}, value);
 		});
 	});
 
 	it('is invalid if a link has a "meta" member that is NOT an object', function() {
 		[void 0, [], 500, null, '500'].forEach(function(value) {
-			expect(tryReturn(function() {
+			expect(function() {
 				new LinksObject({
 					self: {
 						meta: value
 					}
 				}).validate();
-			}))
-				.toBeAForValue(InvalidMemberValueError, value)
-				.toInclude({
+			})
+				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'meta',
 					memberPath: ['self']
-				});
+				}, value);
 		});
 	});
 });
