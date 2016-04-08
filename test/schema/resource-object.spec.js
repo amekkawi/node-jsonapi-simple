@@ -60,15 +60,6 @@ describe('Resource Object', function() {
 		}).toBeValid();
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new ResourceObject({
-			id: 'foo',
-			type: 'bar'
-		});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	// Required to be objects
 	['attributes', 'relationships', 'links', 'meta'].forEach(function(member) {
 		it('is invalid if "' + member + '" is a member and is NOT an object', function() {
@@ -89,5 +80,14 @@ describe('Resource Object', function() {
 					}, value);
 			});
 		});
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new ResourceObject({
+			id: 'foo',
+			type: 'bar'
+		});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });

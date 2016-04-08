@@ -19,12 +19,6 @@ describe('Attributes Object', function() {
 		}).toBeValid();
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new AttributesObject({});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	function exampleObj() {
 		return {
 			'true': true,
@@ -94,5 +88,11 @@ describe('Attributes Object', function() {
 					.validate({allowAnyAttributeName: true});
 			}).toBeValid();
 		});
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new AttributesObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });

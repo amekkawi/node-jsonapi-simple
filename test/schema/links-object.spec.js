@@ -19,12 +19,6 @@ describe('Links Object', function() {
 		}).toBeValid();
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new LinksObject({});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	it('is invalid if a member is NOT a string or object', function() {
 		[void 0, [], 500, null].forEach(function(value) {
 			expect(function() {
@@ -80,5 +74,11 @@ describe('Links Object', function() {
 					memberPath: ['self']
 				}, value);
 		});
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new LinksObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });

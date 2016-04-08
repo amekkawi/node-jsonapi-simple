@@ -18,12 +18,6 @@ describe('Meta Object', function() {
 		}).toBeValid();
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new MetaObject({});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	function exampleObj() {
 		return {
 			'true': true,
@@ -47,5 +41,11 @@ describe('Meta Object', function() {
 		expect(function() {
 			new MetaObject(exampleObj()).validate();
 		}).toBeValid();
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new MetaObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });

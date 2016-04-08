@@ -29,14 +29,6 @@ describe('Relationship Object', function() {
 		}).toThrow(InvalidObjectError);
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new RelationshipObject({
-			meta: {}
-		});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	it('is invalid if "data" is a member and is NOT an object, array or null', function() {
 		[null, [], {type: 'foo', id: 'bar'}].forEach(function(value) {
 			expect(function() {
@@ -92,5 +84,13 @@ describe('Relationship Object', function() {
 					}, value);
 			});
 		});
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new RelationshipObject({
+			meta: {}
+		});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });

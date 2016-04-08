@@ -28,12 +28,6 @@ describe('Link Object', function() {
 		}).toBeValid();
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new LinkObject({});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	it('is valid if "href" is a member and is a string', function() {
 		expect(function() {
 			new LinkObject({
@@ -78,5 +72,11 @@ describe('Link Object', function() {
 					memberPath: []
 				}, value);
 		});
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new LinkObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });

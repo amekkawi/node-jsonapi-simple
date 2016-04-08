@@ -28,12 +28,6 @@ describe('Error Object', function() {
 		}).toBeValid();
 	});
 
-	it('validate method should return "this"', function() {
-		var objInstance = new ErrorObject({});
-		expect(objInstance.validate())
-			.toBe(objInstance);
-	});
-
 	['status', 'code'].forEach(function(member) {
 		it('is valid if "' + member + '" is a member and is a string', function() {
 			['', '500', 'alpha'].forEach(function(value) {
@@ -167,5 +161,11 @@ describe('Error Object', function() {
 					}, value);
 			});
 		});
+	});
+
+	it('validate method should return "this"', function() {
+		var objInstance = new ErrorObject({});
+		expect(objInstance.validate())
+			.toBe(objInstance);
 	});
 });
