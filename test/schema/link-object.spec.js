@@ -34,6 +34,14 @@ describe('Link Object', function() {
 			.toBe(objInstance);
 	});
 
+	it('is valid if "href" is a member and is a string', function() {
+		expect(function() {
+			new LinkObject({
+				href: 'foo'
+			}).validate();
+		}).toBeValid();
+	});
+
 	it('is invalid if "href" is a member and is NOT a string', function() {
 		[void 0, {}, [], 500, null].forEach(function(value) {
 			expect(function() {
@@ -47,6 +55,14 @@ describe('Link Object', function() {
 					memberPath: []
 				}, value);
 		});
+	});
+
+	it('is valid if "meta" is a member and is an object', function() {
+		expect(function() {
+			new LinkObject({
+				meta: {}
+			}).validate();
+		}).toBeValid();
 	});
 
 	it('is invalid if "meta" is a member and is NOT an object', function() {
