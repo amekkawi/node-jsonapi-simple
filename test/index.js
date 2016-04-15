@@ -46,7 +46,7 @@ expect.extend({
 		catch (err) {
 			expect.assert(err instanceof errorType, 'Expected %s to be an instance of %s' + (arguments.length > 2 ? ' for value ' + inspect(value) : ''), err.constructor, errorType);
 			if (props)
-				expect(err).toInclude(props, 'ExpectBed %s to include %s' + (arguments.length > 2 ? ' for value ' + inspect(value) : ''));
+				expect(err).toInclude(props, 'Expected %s to include %s' + (arguments.length > 2 ? ' for value ' + inspect(value) : ''));
 			return this;
 		}
 
