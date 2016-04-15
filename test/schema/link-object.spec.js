@@ -28,7 +28,7 @@ describe('Link Object', function() {
 		}).toBeValid();
 	});
 
-	it('is valid if "href" is a member and is a string', function() {
+	it('is valid if "href" is a string', function() {
 		expect(function() {
 			new LinkObject({
 				href: 'foo'
@@ -51,7 +51,7 @@ describe('Link Object', function() {
 		});
 	});
 
-	it('is valid if "meta" is a member and is an object', function() {
+	it('is valid if "meta" is an object', function() {
 		expect(function() {
 			new LinkObject({
 				meta: {}

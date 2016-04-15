@@ -29,7 +29,7 @@ describe('Error Object', function() {
 	});
 
 	['status', 'code'].forEach(function(member) {
-		it('is valid if "' + member + '" is a member and is a string', function() {
+		it('is valid if "' + member + '" is a string', function() {
 			['', '500', 'alpha'].forEach(function(value) {
 				var obj = {};
 				obj[member] = value;
@@ -39,7 +39,7 @@ describe('Error Object', function() {
 			});
 		});
 
-		it('is invalid if "' + member + '" is a member and is NOT a string', function() {
+		it('is invalid if "' + member + '" is NOT a string', function() {
 			[void 0, {}, [], 500, null].forEach(function(value) {
 				var obj = {};
 				obj[member] = value;
@@ -133,7 +133,7 @@ describe('Error Object', function() {
 	});
 
 	['links', 'meta'].forEach(function(member) {
-		it('is valid if "' + member + '" is a member and is an object', function() {
+		it('is valid if "' + member + '" is an object', function() {
 			var obj = {
 				type: 'foo',
 				id: 'bar'

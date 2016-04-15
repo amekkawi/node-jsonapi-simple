@@ -52,7 +52,7 @@ describe('Relationship Object', function() {
 		});
 	});
 
-	it('is invalid if "data" is a member is an array and its values are NOT objects', function() {
+	it('is invalid if "data" is an array and its values are NOT objects', function() {
 		[void 0, [], 500, null, '500'].forEach(function(value) {
 			expect(function() {
 				new RelationshipObject({
