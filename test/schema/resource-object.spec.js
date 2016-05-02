@@ -22,7 +22,7 @@ describe('Resource Object', function() {
 
 	it('is invalid if it has no members', function() {
 		expect(function() {
-			new ResourceObject({}).validate();
+			new ResourceObject({}).validate('');
 		}).toThrow(InvalidMemberValueError);
 	});
 
@@ -30,12 +30,12 @@ describe('Resource Object', function() {
 		expect(function() {
 			new ResourceObject({
 				id: 'foo'
-			}).validate();
+			}).validate('');
 		})
 			.toBeInvalid(InvalidMemberValueError, {
 				objectName: 'ResourceObject',
 				member: 'type',
-				memberPath: []
+				pointer: '/type'
 			});
 	});
 
@@ -43,12 +43,12 @@ describe('Resource Object', function() {
 		expect(function() {
 			new ResourceObject({
 				type: 'foo'
-			}).validate();
+			}).validate('');
 		})
 			.toBeInvalid(InvalidMemberValueError, {
 				objectName: 'ResourceObject',
 				member: 'id',
-				memberPath: []
+				pointer: '/id'
 			});
 	});
 
@@ -56,7 +56,7 @@ describe('Resource Object', function() {
 		expect(function() {
 			new ResourceObject({
 				type: 'foo'
-			}).validate({documentType: 'request'});
+			}).validate('', {documentType: 'request'});
 		}).toBeValid();
 	});
 
@@ -71,12 +71,12 @@ describe('Resource Object', function() {
 				obj[member] = value;
 
 				expect(function() {
-					new ResourceObject(obj).validate();
+					new ResourceObject(obj).validate('');
 				})
 					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ResourceObject',
 						member: member,
-						memberPath: []
+						pointer: '/' + member
 					}, value);
 			});
 		});
@@ -87,7 +87,7 @@ describe('Resource Object', function() {
 			id: 'foo',
 			type: 'bar'
 		});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

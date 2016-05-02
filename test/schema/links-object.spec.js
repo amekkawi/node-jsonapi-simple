@@ -15,7 +15,7 @@ describe('Links Object', function() {
 
 	it('is valid with no members', function() {
 		expect(function() {
-			new LinksObject({}).validate();
+			new LinksObject({}).validate('');
 		}).toBeValid();
 	});
 
@@ -24,12 +24,12 @@ describe('Links Object', function() {
 			expect(function() {
 				new LinksObject({
 					self: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinksObject',
 					member: 'self',
-					memberPath: []
+					pointer: '/self'
 				}, value);
 		});
 	});
@@ -38,7 +38,7 @@ describe('Links Object', function() {
 		expect(function() {
 			new LinksObject({
 				self: {}
-			}).validate();
+			}).validate('');
 		}).toBeValid();
 	});
 
@@ -49,12 +49,12 @@ describe('Links Object', function() {
 					self: {
 						href: value
 					}
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'href',
-					memberPath: ['self']
+					pointer: '/self/href'
 				}, value);
 		});
 	});
@@ -66,19 +66,19 @@ describe('Links Object', function() {
 					self: {
 						meta: value
 					}
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'meta',
-					memberPath: ['self']
+					pointer: '/self/meta'
 				}, value);
 		});
 	});
 
 	it('validate method should return "this"', function() {
 		var objInstance = new LinksObject({});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

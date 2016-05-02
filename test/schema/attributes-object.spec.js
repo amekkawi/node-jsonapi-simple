@@ -15,7 +15,7 @@ describe('Attributes Object', function() {
 
 	it('is valid with no members', function() {
 		expect(function() {
-			new AttributesObject({}).validate();
+			new AttributesObject({}).validate('');
 		}).toBeValid();
 	});
 
@@ -40,7 +40,7 @@ describe('Attributes Object', function() {
 
 	it('is valid with any member name', function() {
 		expect(function() {
-			new AttributesObject(exampleObj()).validate();
+			new AttributesObject(exampleObj()).validate('');
 		}).toBeValid();
 	});
 
@@ -54,45 +54,45 @@ describe('Attributes Object', function() {
 		it('is invalid if has a "' + member + '" member', function() {
 			expect(function() {
 				new AttributesObject(shallow)
-					.validate();
+					.validate('');
 			})
 				.toBeInvalid(InvalidMemberError, {
 					objectName: 'AttributesObject',
 					member: member,
-					memberPath: []
+					pointer: '/' + member
 				});
 		});
 
 		it('is invalid if has a nested "' + member + '" member', function() {
 			expect(function() {
 				new AttributesObject(deep)
-					.validate();
+					.validate('');
 			})
 				.toBeInvalid(InvalidMemberError, {
 					objectName: 'AttributesObject',
 					member: member,
-					memberPath: ['foo']
+					pointer: '/foo/' + member
 				});
 		});
 
 		it('is valid with a "' + member + '" member if validation option "allowAnyAttributeName" is true', function() {
 			expect(function() {
 				new AttributesObject(shallow)
-					.validate({allowAnyAttributeName: true});
+					.validate('', {allowAnyAttributeName: true});
 			}).toBeValid();
 		});
 
 		it('is valid with a nested "' + member + '" member if validation option "allowAnyAttributeName" is true', function() {
 			expect(function() {
 				new AttributesObject(deep)
-					.validate({allowAnyAttributeName: true});
+					.validate('', {allowAnyAttributeName: true});
 			}).toBeValid();
 		});
 	});
 
 	it('validate method should return "this"', function() {
 		var objInstance = new AttributesObject({});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

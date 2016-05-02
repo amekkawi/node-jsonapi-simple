@@ -24,7 +24,7 @@ describe('Error Object', function() {
 
 	it('is valid with no members', function() {
 		expect(function() {
-			new ErrorObject({}).validate();
+			new ErrorObject({}).validate('');
 		}).toBeValid();
 	});
 
@@ -34,7 +34,7 @@ describe('Error Object', function() {
 				var obj = {};
 				obj[member] = value;
 				expect(function() {
-					new ErrorObject(obj).validate();
+					new ErrorObject(obj).validate('');
 				}).toBeValid(value);
 			});
 		});
@@ -44,12 +44,12 @@ describe('Error Object', function() {
 				var obj = {};
 				obj[member] = value;
 				expect(function() {
-					new ErrorObject(obj).validate();
+					new ErrorObject(obj).validate('');
 				})
 					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ErrorObject',
 						member: member,
-						memberPath: []
+						pointer: '/' + member
 					}, value);
 			});
 		});
@@ -59,7 +59,7 @@ describe('Error Object', function() {
 		expect(function() {
 			new ErrorObject({
 				source: {}
-			}).validate();
+			}).validate('');
 		}).toBeValid();
 	});
 
@@ -68,12 +68,12 @@ describe('Error Object', function() {
 			expect(function() {
 				new ErrorObject({
 					source: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'ErrorObject',
 					member: 'source',
-					memberPath: []
+					pointer: '/source'
 				}, value);
 		});
 	});
@@ -83,7 +83,7 @@ describe('Error Object', function() {
 			var obj = {source: {}};
 			obj.source[member] = 'foo';
 			expect(function() {
-				new ErrorObject(obj).validate();
+				new ErrorObject(obj).validate('');
 			}).toBeValid();
 		});
 
@@ -92,12 +92,12 @@ describe('Error Object', function() {
 				var obj = {source: {}};
 				obj.source[member] = value;
 				expect(function() {
-					new ErrorObject(obj).validate();
+					new ErrorObject(obj).validate('');
 				})
 					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ErrorObject',
 						member: member,
-						memberPath: ['source']
+						pointer: '/source/' + member
 					}, value);
 			});
 		});
@@ -109,7 +109,7 @@ describe('Error Object', function() {
 				source: {
 					foo: 'bar'
 				}
-			}).validate().toJSON();
+			}).validate('').toJSON();
 		}).toBeValid();
 	});
 
@@ -140,7 +140,7 @@ describe('Error Object', function() {
 			};
 			obj[member] = {};
 			expect(function() {
-				new ErrorObject(obj).validate();
+				new ErrorObject(obj).validate('');
 			}).toBeValid();
 		});
 
@@ -152,12 +152,12 @@ describe('Error Object', function() {
 				};
 				obj[member] = value;
 				expect(function() {
-					new ErrorObject(obj).validate();
+					new ErrorObject(obj).validate('');
 				})
 					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'ErrorObject',
 						member: member,
-						memberPath: []
+						pointer: '/' + member
 					}, value);
 			});
 		});
@@ -165,7 +165,7 @@ describe('Error Object', function() {
 
 	it('validate method should return "this"', function() {
 		var objInstance = new ErrorObject({});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

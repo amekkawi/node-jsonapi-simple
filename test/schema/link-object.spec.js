@@ -24,7 +24,7 @@ describe('Link Object', function() {
 
 	it('is valid with no members', function() {
 		expect(function() {
-			new LinkObject({}).validate();
+			new LinkObject({}).validate('');
 		}).toBeValid();
 	});
 
@@ -32,7 +32,7 @@ describe('Link Object', function() {
 		expect(function() {
 			new LinkObject({
 				href: 'foo'
-			}).validate();
+			}).validate('');
 		}).toBeValid();
 	});
 
@@ -41,12 +41,12 @@ describe('Link Object', function() {
 			expect(function() {
 				new LinkObject({
 					href: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'href',
-					memberPath: []
+					pointer: '/href'
 				}, value);
 		});
 	});
@@ -55,7 +55,7 @@ describe('Link Object', function() {
 		expect(function() {
 			new LinkObject({
 				meta: {}
-			}).validate();
+			}).validate('');
 		}).toBeValid();
 	});
 
@@ -64,19 +64,19 @@ describe('Link Object', function() {
 			expect(function() {
 				new LinkObject({
 					meta: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'LinkObject',
 					member: 'meta',
-					memberPath: []
+					pointer: '/meta'
 				}, value);
 		});
 	});
 
 	it('validate method should return "this"', function() {
 		var objInstance = new LinkObject({});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

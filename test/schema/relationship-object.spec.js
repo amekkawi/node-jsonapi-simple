@@ -25,7 +25,7 @@ describe('Relationship Object', function() {
 
 	it('is invalid if it has no members', function() {
 		expect(function() {
-			new RelationshipObject({}).validate();
+			new RelationshipObject({}).validate('');
 		}).toThrow(InvalidObjectError);
 	});
 
@@ -34,7 +34,7 @@ describe('Relationship Object', function() {
 			expect(function() {
 				new RelationshipObject({
 					data: value
-				}).validate();
+				}).validate('');
 			}).toBeValid(value);
 		});
 
@@ -42,12 +42,12 @@ describe('Relationship Object', function() {
 			expect(function() {
 				new RelationshipObject({
 					data: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'RelationshipObject',
 					member: 'data',
-					memberPath: []
+					pointer: '/data'
 				}, value);
 		});
 	});
@@ -59,12 +59,12 @@ describe('Relationship Object', function() {
 					data: [
 						value
 					]
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'RelationshipObject',
 					member: '0',
-					memberPath: ['data']
+					pointer: '/data/0'
 				}, value);
 		});
 	});
@@ -75,12 +75,12 @@ describe('Relationship Object', function() {
 				var obj = {};
 				obj[member] = value;
 				expect(function() {
-					new RelationshipObject(obj).validate();
+					new RelationshipObject(obj).validate('');
 				})
 					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'RelationshipObject',
 						member: member,
-						memberPath: []
+						pointer: '/' + member
 					}, value);
 			});
 		});
@@ -90,7 +90,7 @@ describe('Relationship Object', function() {
 		var objInstance = new RelationshipObject({
 			meta: {}
 		});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

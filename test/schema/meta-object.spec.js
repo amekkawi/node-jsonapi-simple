@@ -14,7 +14,7 @@ describe('Meta Object', function() {
 
 	it('is valid with no members', function() {
 		expect(function() {
-			new MetaObject({}).validate();
+			new MetaObject({}).validate('');
 		}).toBeValid();
 	});
 
@@ -39,13 +39,13 @@ describe('Meta Object', function() {
 
 	it('is valid with any member name', function() {
 		expect(function() {
-			new MetaObject(exampleObj()).validate();
+			new MetaObject(exampleObj()).validate('');
 		}).toBeValid();
 	});
 
 	it('validate method should return "this"', function() {
 		var objInstance = new MetaObject({});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });

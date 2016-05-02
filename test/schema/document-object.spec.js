@@ -32,10 +32,10 @@ describe('Document Object', function() {
 
 	it('is invalid if it has no members', function() {
 		expect(function() {
-			new DocumentObject({}).validate();
+			new DocumentObject({}).validate('');
 		}).toBeInvalid(InvalidObjectError, {
 			objectName: 'DocumentObject',
-			memberPath: [],
+			pointer: '',
 			message: 'Invalid DocumentObject: must contain at least one of the following members: data, errors, meta'
 		});
 	});
@@ -45,7 +45,7 @@ describe('Document Object', function() {
 			expect(function() {
 				new DocumentObject({
 					data: value
-				}).validate();
+				}).validate('');
 			}).toBeValid(value);
 		});
 	});
@@ -55,7 +55,7 @@ describe('Document Object', function() {
 			expect(function() {
 				new DocumentObject({
 					data: value
-				}).validate();
+				}).validate('');
 			}).toBeValid(value);
 		});
 	});
@@ -65,12 +65,12 @@ describe('Document Object', function() {
 			expect(function() {
 				new DocumentObject({
 					data: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'DocumentObject',
 					member: 'data',
-					memberPath: []
+					pointer: '/data'
 				}, value);
 		});
 	});
@@ -82,12 +82,12 @@ describe('Document Object', function() {
 					data: [
 						value
 					]
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'DocumentObject',
 					member: '0',
-					memberPath: ['data']
+					pointer: '/data/0'
 				}, value);
 		});
 	});
@@ -99,7 +99,7 @@ describe('Document Object', function() {
 			};
 			obj[member] = {};
 			expect(function() {
-				new DocumentObject(obj).validate();
+				new DocumentObject(obj).validate('');
 			})
 				.toBeValid();
 		});
@@ -111,12 +111,12 @@ describe('Document Object', function() {
 				};
 				obj[member] = value;
 				expect(function() {
-					new DocumentObject(obj).validate();
+					new DocumentObject(obj).validate('');
 				})
 					.toBeInvalid(InvalidMemberValueError, {
 						objectName: 'DocumentObject',
 						member: member,
-						memberPath: []
+						pointer: '/' + member
 					}, value);
 			});
 		});
@@ -127,12 +127,12 @@ describe('Document Object', function() {
 			expect(function() {
 				new DocumentObject({
 					data: value
-				}).validate();
+				}).validate('');
 			})
 				.toBeInvalid(InvalidMemberValueError, {
 					objectName: 'DocumentObject',
 					member: 'data',
-					memberPath: []
+					pointer: '/data'
 				}, value);
 		});
 	});
@@ -141,7 +141,7 @@ describe('Document Object', function() {
 		var objInstance = new DocumentObject({
 			meta: {}
 		});
-		expect(objInstance.validate())
+		expect(objInstance.validate(''))
 			.toBe(objInstance);
 	});
 });
