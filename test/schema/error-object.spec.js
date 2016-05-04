@@ -28,7 +28,7 @@ describe('Error Object', function() {
 		}).toBeValid();
 	});
 
-	['status', 'code'].forEach(function(member) {
+	['status', 'code', 'title', 'detail'].forEach(function(member) {
 		it('is valid if "' + member + '" is a string', function() {
 			['', '500', 'alpha'].forEach(function(value) {
 				var obj = {};
