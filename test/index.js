@@ -153,6 +153,9 @@ expect.extend({
 	}
 });
 
+require('./util/index.spec');
+require('./util/json-pointer.spec');
+require('./util/members.spec');
 require('./schema/meta-object.spec');
 require('./schema/attributes-object.spec');
 require('./schema/link-object.spec');
