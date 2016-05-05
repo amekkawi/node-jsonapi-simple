@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require('expect');
-var util = require('../../lib/util');
 var DocumentObject = require('../../lib/schema/document-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 var InvalidObjectError = require('../../lib/errors/invalid-object-error');
@@ -14,21 +13,19 @@ describe('Document Object', function() {
 			});
 	});
 
-	it('should have expected prototype setter methods', function() {
-		['links', 'data', 'meta']
-			.forEach(function(member) {
-				expect(DocumentObject.prototype['set' + util.upperFirst(member)]).toBeA('function');
-			});
+	it('should allow no arguments constructor', function() {
+		new DocumentObject();
 	});
 
-	it('should have expected prototype pusher methods', function() {
-		['data', 'included', 'errors']
-			.forEach(function(member) {
-				expect(DocumentObject.prototype['push' + util.upperFirst(member)]).toBeA('function');
-			});
+	it('should set members through constructor, "set" method, and named setter methods', function() {
+		expect(DocumentObject)
+			.toSetMembers(['data', 'links', 'meta', 'included', 'errors', 'jsonapi']);
 	});
 
-	// TODO: Test that setters/pushers works as expected
+	it('should push to array members through "push" method, and named pusher methods', function() {
+		expect(DocumentObject)
+			.toPushMembers(['data', 'included', 'errors']);
+	});
 
 	it('is invalid if it has no members', function() {
 		expect(function() {

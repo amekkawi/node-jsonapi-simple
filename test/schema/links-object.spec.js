@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require('expect');
-var util = require('../../lib/util');
 var LinksObject = require('../../lib/schema/links-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
@@ -11,6 +10,10 @@ describe('Links Object', function() {
 			.forEach(function(member) {
 				expect(LinksObject.prototype[member]).toBeA('function');
 			});
+	});
+
+	it('should allow no arguments constructor', function() {
+		new LinksObject();
 	});
 
 	it('is valid with no members', function() {

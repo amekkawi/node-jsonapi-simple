@@ -5,9 +5,14 @@ var MetaObject = require('../../lib/schema/meta-object');
 
 describe('Meta Object', function() {
 	it('should have expected prototype methods', function() {
-		expect(MetaObject.prototype.set).toBeA('function');
-		expect(MetaObject.prototype.validate).toBeA('function');
-		expect(MetaObject.prototype.toJSON).toBeA('function');
+		['set', 'validate', 'toJSON']
+			.forEach(function(member) {
+				expect(MetaObject.prototype[member]).toBeA('function');
+			});
+	});
+
+	it('should allow no arguments constructor', function() {
+		new MetaObject();
 	});
 
 	// TODO: Test that set works as expected

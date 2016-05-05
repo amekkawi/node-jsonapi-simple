@@ -2,23 +2,24 @@
 
 var expect = require('expect');
 var ResourceObject = require('../../lib/schema/resource-object');
-var InvalidMemberError = require('../../lib/errors/invalid-member-error');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
 describe('Resource Object', function() {
 	it('should have expected prototype methods', function() {
-		expect(ResourceObject.prototype.set).toBeA('function');
-		expect(ResourceObject.prototype.setId).toBeA('function');
-		expect(ResourceObject.prototype.setType).toBeA('function');
-		expect(ResourceObject.prototype.setAttributes).toBeA('function');
-		expect(ResourceObject.prototype.setRelationships).toBeA('function');
-		expect(ResourceObject.prototype.setLinks).toBeA('function');
-		expect(ResourceObject.prototype.setMeta).toBeA('function');
-		expect(ResourceObject.prototype.validate).toBeA('function');
-		expect(ResourceObject.prototype.toJSON).toBeA('function');
+		['set', 'validate', 'toJSON']
+			.forEach(function(member) {
+				expect(ResourceObject.prototype[member]).toBeA('function');
+			});
 	});
 
-	// TODO: Test that set* methods work as expected
+	it('should allow no arguments constructor', function() {
+		new ResourceObject();
+	});
+
+	it('should set members through constructor, "set" method, and named setter methods', function() {
+		expect(ResourceObject)
+			.toSetMembers(['id', 'type', 'attributes', 'relationships', 'links', 'meta']);
+	});
 
 	it('is invalid if it has no members', function() {
 		expect(function() {

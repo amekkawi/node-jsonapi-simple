@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require('expect');
-var util = require('../../lib/util');
 var ErrorObject = require('../../lib/schema/error-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
@@ -9,18 +8,18 @@ describe('Error Object', function() {
 	it('should have expected prototype methods', function() {
 		['set', 'validate', 'toJSON']
 			.forEach(function(member) {
-				expect(ErrorObject.prototype[member]).toBeA('function');
+				expect(ErrorObject.prototype[member]).toBeA('function', 'Expected "' + member + '" of %s to be a %s');
 			});
 	});
 
-	it('should have expected prototype setter methods', function() {
-		['id', 'links', 'status', 'code', 'title', 'detail', 'source', 'meta']
-			.forEach(function(member) {
-				expect(ErrorObject.prototype['set' + util.upperFirst(member)]).toBeA('function');
-			});
+	it('should allow no arguments constructor', function() {
+		new ErrorObject();
 	});
 
-	// TODO: Test that set* works as expected
+	it('should set members through constructor, "set" method, and named setter methods', function() {
+		expect(ErrorObject)
+			.toSetMembers(['id', 'links', 'status', 'code', 'title', 'detail', 'source', 'meta']);
+	});
 
 	it('is valid with no members', function() {
 		expect(function() {

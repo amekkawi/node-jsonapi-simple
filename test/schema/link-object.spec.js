@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require('expect');
-var util = require('../../lib/util');
 var LinkObject = require('../../lib/schema/link-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
@@ -13,14 +12,14 @@ describe('Link Object', function() {
 			});
 	});
 
-	it('should have expected prototype setter methods', function() {
-		['href', 'meta']
-			.forEach(function(member) {
-				expect(LinkObject.prototype['set' + util.upperFirst(member)]).toBeA('function');
-			});
+	it('should allow no arguments constructor', function() {
+		new LinkObject();
 	});
 
-	// TODO: Test that set* works as expected
+	it('should set members through constructor, "set" method, and named setter methods', function() {
+		expect(LinkObject)
+			.toSetMembers(['href', 'meta']);
+	});
 
 	it('is valid with no members', function() {
 		expect(function() {

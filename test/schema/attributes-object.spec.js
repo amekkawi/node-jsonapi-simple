@@ -6,9 +6,14 @@ var InvalidMemberError = require('../../lib/errors/invalid-member-error');
 
 describe('Attributes Object', function() {
 	it('should have expected prototype methods', function() {
-		expect(AttributesObject.prototype.set).toBeA('function');
-		expect(AttributesObject.prototype.validate).toBeA('function');
-		expect(AttributesObject.prototype.toJSON).toBeA('function');
+		['set', 'validate', 'toJSON']
+			.forEach(function(member) {
+				expect(AttributesObject.prototype[member]).toBeA('function');
+			});
+	});
+
+	it('should allow no arguments constructor', function() {
+		new AttributesObject();
 	});
 
 	// TODO: Test that set works as expected

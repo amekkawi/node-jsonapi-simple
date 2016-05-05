@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require('expect');
-var util = require('../../lib/util');
 var ResourceIdentifierObject = require('../../lib/schema/resource-identifier-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 
@@ -13,14 +12,14 @@ describe('Resource Identifier Object', function() {
 			});
 	});
 
-	it('should have expected prototype setter methods', function() {
-		['type', 'id', 'meta']
-			.forEach(function(member) {
-				expect(ResourceIdentifierObject.prototype['set' + util.upperFirst(member)]).toBeA('function');
-			});
+	it('should allow no arguments constructor', function() {
+		new ResourceIdentifierObject();
 	});
 
-	// TODO: Test that set* works as expected
+	it('should set members through constructor, "set" method, and named setter methods', function() {
+		expect(ResourceIdentifierObject)
+			.toSetMembers(['type', 'id', 'meta']);
+	});
 
 	it('is invalid if it has no members', function() {
 		expect(function() {

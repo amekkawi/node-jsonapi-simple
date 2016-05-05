@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require('expect');
-var util = require('../../lib/util');
 var RelationshipObject = require('../../lib/schema/relationship-object');
 var InvalidMemberValueError = require('../../lib/errors/invalid-member-value-error');
 var InvalidObjectError = require('../../lib/errors/invalid-object-error');
@@ -14,14 +13,14 @@ describe('Relationship Object', function() {
 			});
 	});
 
-	it('should have expected prototype setter methods', function() {
-		['links', 'data', 'meta']
-			.forEach(function(member) {
-				expect(RelationshipObject.prototype['set' + util.upperFirst(member)]).toBeA('function');
-			});
+	it('should allow no arguments constructor', function() {
+		new RelationshipObject();
 	});
 
-	// TODO: Test that set* works as expected
+	it('should set members through constructor, "set" method, and named setter methods', function() {
+		expect(RelationshipObject)
+			.toSetMembers(['links', 'data', 'meta']);
+	});
 
 	it('is invalid if it has no members', function() {
 		expect(function() {
